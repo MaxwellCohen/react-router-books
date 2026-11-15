@@ -15,3 +15,16 @@ Copy `.env.example` to `.env`.
 - `pnpm build` — production build
 - `pnpm start` — serve the build (`PORT` env, default 3000)
 - `pnpm typecheck` — typegen + `tsc`
+
+## Deployment
+
+| Host | URL | Build flag |
+| --- | --- | --- |
+| Vercel | https://react-router-books-tau.vercel.app | `VERCEL=1` (set by Vercel) |
+| Netlify | https://react-router-books.netlify.app | `NETLIFY=1` |
+| Cloudflare Workers | https://react-router-books.to-email-max.workers.dev | `CLOUDFLARE=1` (or `WORKERS_CI`, set by Workers Builds) |
+
+- Vercel and Netlify are connected to this repo: a push to `main` builds and deploys to both. Cloudflare is deployed with `pnpm deploy:cloudflare`.
+- The build picks the host adapter from the flag above; with no flag it targets Node.
+- `POSTGRES_URL` is set on every host (Vercel and Netlify environment variable, Cloudflare secret). Without it the app serves the preview catalog.
+- Manual deploys: `pnpm deploy:vercel`, `pnpm deploy:netlify`, `pnpm deploy:cloudflare`.

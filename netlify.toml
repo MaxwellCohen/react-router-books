@@ -2,6 +2,9 @@
   command = "NETLIFY=1 pnpm build"
   publish = "build/client"
 
+[build.environment]
+  NODE_VERSION = "24"
+
 [dev]
   command = "pnpm dev"
   port = 3000
