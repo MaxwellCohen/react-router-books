@@ -14,9 +14,13 @@
   },
   "dependencies": {
     "@ariakit/react": "^0.4.43",
+    "@fontsource-variable/geist": "^5.3.0",
+    "@fontsource-variable/geist-mono": "^5.3.0",
     "@neondatabase/serverless": "^1.2.1",
+    "@netlify/blobs": "^11.1.9",
     "@react-router/node": "^8.5.1",
     "@react-router/serve": "^8.5.1",
+    "@vercel/functions": "^3.11.3",
     "clsx": "^2.1.1",
     "drizzle-orm": "^0.45.4",
     "isbot": "^5.2.3",

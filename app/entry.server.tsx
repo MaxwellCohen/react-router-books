@@ -2,6 +2,7 @@ import type { EntryContext, RouterContextProvider } from "react-router";
 import { ServerRouter } from "react-router";
 import { isbot } from "isbot";
 import { renderToReadableStream } from "react-dom/server";
+import { hostDocumentCacheControl } from "@/lib/server/catalog-cache";
 
 export const streamTimeout = 5_000;
 
@@ -47,6 +48,7 @@ export default async function handleRequest(
   }
 
   responseHeaders.set("Content-Type", "text/html");
+  responseHeaders.set("Cache-Control", hostDocumentCacheControl());
   return new Response(body, {
     headers: responseHeaders,
     status: responseStatusCode,
