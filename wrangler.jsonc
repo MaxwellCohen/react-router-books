@@ -3,5 +3,8 @@
   "name": "react-router-books-optimized",
   "compatibility_date": "2026-10-01",
   "compatibility_flags": ["nodejs_compat"],
-  "main": "./workers/app.ts"
+  "main": "./workers/app.ts",
+  "kv_namespaces": [
+    { "binding": "CATALOG_CACHE", "id": "36bbf884b6254de5a295691697e8b950" }
+  ]
 }

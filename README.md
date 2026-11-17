@@ -24,6 +24,17 @@ Copy `.env.example` to `.env`.
 | Netlify | https://react-router-books.netlify.app | `NETLIFY=1` |
 | Cloudflare Workers | https://react-router-books.to-email-max.workers.dev | `CLOUDFLARE=1` (or `WORKERS_CI`, set by Workers Builds) |
 
+### `optimized` branch
+
+| Host | URL |
+| --- | --- |
+| Vercel | https://react-router-books-optimized.vercel.app |
+| Netlify | https://react-router-books-max-optimized.netlify.app |
+| Cloudflare Workers | https://react-router-books-optimized.to-email-max.workers.dev |
+
+- Self-hosted Geist fonts (`@fontsource-variable/geist`, `@fontsource-variable/geist-mono`) bundled and served from the app origin instead of Google Fonts.
+- Caching: catalog queries are cached for 1 hour with in-flight de-dup (in-memory plus Vercel `getCache`, Netlify Blobs, or Workers KV `CATALOG_CACHE`); hashed assets are served `immutable` on every host.
+
 - Vercel and Netlify are connected to this repo: a push to `main` builds and deploys to both. Cloudflare is deployed with `pnpm deploy:cloudflare`.
 - The build picks the host adapter from the flag above; with no flag it targets Node.
 - `POSTGRES_URL` is set on every host (Vercel and Netlify environment variable, Cloudflare secret). Without it the app serves the preview catalog.
