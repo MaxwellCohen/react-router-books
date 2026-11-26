@@ -1,6 +1,6 @@
 {
   "include": ["**/*.ts", "**/*.tsx", ".react-router/types/**/*"],
-  "exclude": ["node_modules", "build"],
+  "exclude": ["node_modules", "build", ".ft-builds", "feature-tests/rsc-islands"],
   "compilerOptions": {
     "target": "ES2022",
     "jsx": "react-jsx",
