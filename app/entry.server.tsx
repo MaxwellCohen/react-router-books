@@ -48,7 +48,10 @@ export default async function handleRequest(
   }
 
   responseHeaders.set("Content-Type", "text/html");
-  responseHeaders.set("Cache-Control", hostDocumentCacheControl());
+  // Respect a route `headers` export (feature-tests/caching); otherwise use the host default.
+  if (!responseHeaders.has("Cache-Control")) {
+    responseHeaders.set("Cache-Control", hostDocumentCacheControl());
+  }
   return new Response(body, {
     headers: responseHeaders,
     status: responseStatusCode,

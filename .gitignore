@@ -8,3 +8,7 @@ build
 .netlify
 .wrangler
 .dev.vars
+.ft-builds
+feature-tests/report.json
+feature-tests/rsc-islands/build
+test-results
