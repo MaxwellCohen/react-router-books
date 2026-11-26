@@ -1,0 +1,85 @@
+{
+  "framework": "react-router",
+  "repo": "react-router-books",
+  "commit": "e2d06f01e440e7422341d7193918718c8452b4f8",
+  "ranAt": "2026-11-26T05:04:30.289Z",
+  "results": {
+    "css-inlining": {
+      "claimedLabel": "manual",
+      "status": "pass",
+      "method": "Vite '?inline' import rendered into a <style> in the route component",
+      "evidence": "SSR HTML has <style> containing .ft-inline-marker (56 bytes); none of 1 stylesheet link(s) contain it; style applied (rgb(255, 0, 128))",
+      "test": "feature-tests/css-inlining.spec.ts"
+    },
+    "font-optimization": {
+      "claimedLabel": "third-party",
+      "status": "pass",
+      "method": "Fontsource (@fontsource-variable/geist-mono) + hand-added <link rel=preload as=font> via route links()",
+      "evidence": "preload /assets/geist-mono-latin-wght-normal-XN7g48iV.woff2; @font-face has font-display:swap; 2 font request(s) all same-origin; 0 Google Fonts requests",
+      "test": "feature-tests/font-optimization.spec.ts"
+    },
+    "image-pipeline": {
+      "claimedLabel": "third-party",
+      "status": "pass",
+      "method": "@unpic/react <Image> over the wsrv.nl image CDN",
+      "evidence": "srcset widths [320,640]; NO width/height attrs; inline style max-width:320px + aspect-ratio reserves a 320x480 box (measured with CDN blocked); offscreen loading=lazy; wsrv.nl returned image/webp",
+      "test": "feature-tests/image-pipeline.spec.ts"
+    },
+    "caching": {
+      "claimedLabel": "first-party",
+      "status": "pass",
+      "method": "route `headers` export (Cache-Control public, max-age=3, s-maxage=3)",
+      "evidence": "Cache-Control \"public, max-age=3, s-maxage=3\" on document and .data; browser fetch within TTL reused counter 2=2; after TTL got fresh 3",
+      "test": "feature-tests/caching.spec.ts"
+    },
+    "route-prefetching": {
+      "claimedLabel": "first-party",
+      "status": "pass",
+      "method": "<Link prefetch=\"intent\">",
+      "evidence": "on hover, before click: /feature-tests/route-prefetching/target.data, /assets/route-prefetching-target-CFMQtnSF.js",
+      "test": "feature-tests/route-prefetching.spec.ts"
+    },
+    "islands": {
+      "claimedLabel": "experimental",
+      "status": "pass",
+      "method": "separate RSC framework-mode sub-app (unstable_reactRouterRSC + @vitejs/plugin-rsc) with one \"use client\" island",
+      "evidence": "unstable_reactRouterRSC + @vitejs/plugin-rsc@0.5.26 sub-app: island clicked to \"Island clicks: 1\"; 7 JS files, none contain server marker; island code in /assets/islands-D2N9a-Bl.js",
+      "test": "feature-tests/islands.spec.ts"
+    },
+    "render-modes": {
+      "claimedLabel": "first-party",
+      "status": "pass",
+      "method": "react-router.config prerender list + ssr:true + clientLoader route",
+      "evidence": "prerendered build/client/.../static/index.html served with stable stamp 2026-11-26T05:03:10.620Z; /dynamic stamps differ (2026-11-26T05:04:27.199Z vs 2026-11-26T05:04:27.273Z); /client SSR shows HydrateFallback, data from clientLoader",
+      "test": "feature-tests/render-modes.spec.ts"
+    },
+    "reactivity": {
+      "claimedLabel": "third-party",
+      "status": "pass",
+      "method": "@preact/signals-react signal passed directly as JSX text child",
+      "evidence": "3 clicks -> bound text 3; component render count stayed 1",
+      "test": "feature-tests/reactivity.spec.ts"
+    },
+    "bundle-analysis": {
+      "claimedLabel": "third-party",
+      "status": "pass",
+      "method": "rollup-plugin-visualizer added to client build when ANALYZE=1",
+      "evidence": ".ft-builds/analyze/stats.html (1136298 B) + stats.json with 2586 modules",
+      "test": "feature-tests/bundle-analysis.spec.ts"
+    },
+    "third-party-scripts": {
+      "claimedLabel": "manual",
+      "status": "pass",
+      "method": "useEffect injects <script async> after hydration (stand-in /ft/fake-third-party.js)",
+      "evidence": "not in SSR HTML; injected async into <body> after hydration (hydrated 217ms, ran 231ms); global set",
+      "test": "feature-tests/third-party-scripts.spec.ts"
+    },
+    "multi-host-deployment": {
+      "claimedLabel": "third-party",
+      "status": "pass",
+      "method": "node (@react-router/serve), CLOUDFLARE=1 (@cloudflare/vite-plugin), NETLIFY=1 (@netlify/vite-plugin-react-router), VERCEL=1 (@vercel/react-router preset)",
+      "evidence": "built node, cloudflare, netlify, vercel into .ft-builds/<target>; node server/index.js, cloudflare server/wrangler.json, .netlify/v1/functions/react-router-server.mjs, vercel server/nodejs_* + .vercel/react-router-build-result.json",
+      "test": "feature-tests/multi-host-deployment.spec.ts"
+    }
+  }
+}
