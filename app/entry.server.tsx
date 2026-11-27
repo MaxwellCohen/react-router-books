@@ -1,8 +1,8 @@
-import type { EntryContext, RouterContextProvider } from "react-router";
+import type { EntryContext, HandleDataRequestFunction, RouterContextProvider } from "react-router";
 import { ServerRouter } from "react-router";
 import { isbot } from "isbot";
 import { renderToReadableStream } from "react-dom/server";
-import { hostDocumentCacheControl } from "@/lib/server/catalog-cache";
+import { NO_STORE_CACHE_CONTROL } from "@/lib/server/catalog-cache";
 
 export const streamTimeout = 5_000;
 
@@ -48,12 +48,21 @@ export default async function handleRequest(
   }
 
   responseHeaders.set("Content-Type", "text/html");
-  // Respect a route `headers` export (feature-tests/caching); otherwise use the host default.
-  if (!responseHeaders.has("Cache-Control")) {
-    responseHeaders.set("Cache-Control", hostDocumentCacheControl());
+  // Cache-Control comes from the route `headers` exports (root sets the default).
+  // Never let a CDN keep a 404/500 document.
+  if (responseStatusCode >= 400 || !responseHeaders.has("Cache-Control")) {
+    responseHeaders.set("Cache-Control", NO_STORE_CACHE_CONTROL);
   }
   return new Response(body, {
     headers: responseHeaders,
     status: responseStatusCode,
   });
 }
+
+// Same rule for client-navigation `.data` responses.
+export const handleDataRequest: HandleDataRequestFunction = (response) => {
+  if (response.status >= 400) {
+    response.headers.set("Cache-Control", NO_STORE_CACHE_CONTROL);
+  }
+  return response;
+};

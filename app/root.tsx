@@ -7,6 +7,9 @@ import { BookSearch } from '@/features/book/components/book-search'
 import { BookSidebar } from '@/features/book/components/book-sidebar'
 import type { Route } from './+types/root'
 import appCss from './styles/global.css?url'
+// Same file Fontsource's @font-face points at; Vite emits it once under one hashed name.
+import geistLatinWoff2 from '@fontsource-variable/geist/files/geist-latin-wght-normal.woff2?url'
+import { DOCUMENT_CACHE_CONTROL } from '@/lib/server/catalog-cache'
 
 const description =
   'Browse two million Goodreads books with React Router, streaming search, and URL-driven filters.'
@@ -26,8 +29,15 @@ export const meta: Route.MetaFunction = () => [
 
 export const links: Route.LinksFunction = () => [
   { rel: 'icon', href: '/icon.svg', type: 'image/svg+xml' },
+  { rel: 'preload', href: geistLatinWoff2, as: 'font', type: 'font/woff2', crossOrigin: 'anonymous' },
   { rel: 'stylesheet', href: appCss },
 ]
+
+// Applies to every document and `.data` response; child routes inherit it via parentHeaders.
+// Error statuses are downgraded to no-store in entry.server.tsx.
+export const headers: Route.HeadersFunction = () => ({
+  'Cache-Control': DOCUMENT_CACHE_CONTROL,
+})
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
